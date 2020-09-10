@@ -1,0 +1,440 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  Стилевой файл с настройками отечественной типограцики.
+%  Изначально создавался для издательства Физматкнига
+%  Автор: Кирилл Чувилин <k.chuvilin@texnous.org>
+%
+%  Copyright: 2017-2018 Kirill Chuvilin
+%  License: BSD-3-Clause
+%
+%  Redistribution and use in source and binary forms, with or without modification, are permitted
+%  provided that the following conditions are met:
+%
+%  1. Redistributions of source code must retain the above copyright notice, this list of conditions
+%  and the following disclaimer.
+%
+%  2. Redistributions in binary form must reproduce the above copyright notice, this list of
+%  conditions and the following disclaimer in the documentation and/or other materials provided with
+%  the distribution.
+%
+%  3. Neither the name of the copyright holder nor the names of its contributors may be used to
+%  endorse or promote products derived from this software without specific prior written permission.
+%
+%  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+%  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+%  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+%  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+%  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+%  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+%  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+%  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage[utf8]{inputenc} % входная кодировка
+\RequirePackage{cmap}% для корректной T2A в PDF
+\RequirePackage[T2A]{fontenc} % кодировка шрифтов для вывода
+\RequirePackage{amsmath} % дополнительные возможности математики AMS
+\RequirePackage{amssymb} % дополнительные символы AMS
+\RequirePackage{amsthm} % возможность определять стили для теорем
+\RequirePackage[explicit]{titlesec} % возможность определять стили для заголовков разделов
+\RequirePackage{enumerate} % возможность изменять вид нумерованных списков
+\RequirePackage{enumitem} % возможность создавать новые типы нумераций
+\RequirePackage{soulutf8} % разрядка, подчеркивание и т.д. для utf8
+\soulaccent{\IeC} % исправление странного бага в soul
+\RequirePackage{graphicx} % вставка графики
+\RequirePackage{psfrag}   % вставка надписей
+\RequirePackage{setspace} % управление интерлиньяжем
+\RequirePackage[unicode,hidelinks]{hyperref} % гиперссылки
+
+%\RequirePackage{wrapfig} % обтекание объектов
+%\RequirePackage{color} % цветной текст
+%\RequirePackage{breakurl} % возможность переносить ссылки
+%\RequirePackage{array} % дополнительные стили для таблиц
+%\RequirePackage{longtable} % таблицы на несколько страниц
+%\RequirePackage{ifthen} % ветвление
+%\RequirePackage{calc} % вычисления
+
+
+\frenchspacing% запрещаем добавление отступа после знаков препинания
+\righthyphenmin=2% разрешаем перенос 2 последних букв
+\clubpenalty=10000% нет разрыва после первой строки абзаца
+\widowpenalty=10000% нет разрыва перед последней строкой абзаца
+\setcounter{topnumber}{0}% максимальное количество картинок вверху страницы
+\parskip=0pt% расстояние между абзацами
+\renewcommand{\baselinestretch}{0.95}% интерлиньяж
+\tolerance=1000% балее мягкие пробелы
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Титульная страница
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%
+% Задать название учреждения.
+% #1 - команда для вывода названия
+%%
+\def\institution#1{\def\@institution{#1}}
+\def\@institution{}% название учреждения
+
+%%
+% Задать адрес сайта
+% #1 - команда для вывода адреса сайта
+%%
+\def\website#1{\def\@website{#1}}
+\def\@website{}% адрес сайта
+
+%%
+% Задать адрес электронной почты
+% #1 - команда для вывода адреса почты
+%%
+\def\email#1{\def\@email{#1}}
+\def\@email{}% адрес электронной почты
+
+%%
+% Вывести титульную страницу.
+%%
+\def\maketitle{%
+	\clearpage% очичтить страницу
+	\thispagestyle{empty}% нет колонтитулов на странице
+	\begin{center}
+		\null
+		\vfill\vfill
+		{\LARGE\MakeUppercase{\@title}}
+		\vfill
+		\ifx\@author\empty\else\@author\fi%
+		\ifx\@email\empty\else%
+			~<\texttt{\href{mailto:\@email}{\@email}}>%
+		\fi%
+		
+		\@institution
+		\vfill
+		{\tiny\@website}
+		\vfill
+		\@date
+	\end{center}
+	\clearpage%
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Оглавление
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setcounter{tocdepth}{3}% глубина отображения в оглавлении
+
+\renewcommand\tableofcontents{% страница с оглавлением
+	\thispagestyle{empty}% нет колонтитулов на странице
+	{\noindent\Large\sffamily\upshape\bfseries\MakeUppercase{\contentsname}}%
+	\vskip\baselineskip%
+	\@mkboth{\MakeUppercase\contentsname}{\MakeUppercase\contentsname}%
+	\@starttoc{toc}%
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Оформление заголовков разделов
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\@chaptername{}% метка для \chapter
+\soulregister{\@chaptername}{0}
+\def\@chaptershortname{}% сокращённая метка для \chapter
+\def\@chapapp#1#2#3{\@chaptershortname~#2\hfill}% переопределить вывод метки для колонтитулов
+\def\thechapter{\arabic{chapter}}
+\titleformat{\chapter} % стиль оформления \chapter
+	[display] % shape
+	{\sffamily\upshape} % стиль текста
+	{\vspace{-8ex}\large\mdseries\MakeUppercase\@chaptername~\thechapter} % метка
+	{0.5ex} % разделитель
+	{% код вставки
+		\renewcommand{\baselinestretch}{1}% интерлиньяж
+		\thispagestyle{empty}% нет колонтитулов на странице
+		\hrule height .5pt% горизонтальная линейка
+		\vspace{1ex}%
+		\Large\bfseries\MakeUppercase{#1}%
+	}
+	[% код после вставки
+	]
+	
+
+%%
+% Задать метку для \chapter.
+% #1 - команда вывода метки
+%%
+\def\chaptername#1{\def\@chaptername{#1}}
+
+%%
+% Задать сокращённую метку для \chapter.
+% #1 - команда вывода метки
+%%
+\def\chaptershortname#1{\def\@chaptershortname{#1}}
+
+
+\def\thesection{\ifnum\arabic{chapter}=0\else\thechapter.\fi\arabic{section}}	
+\titleformat{\section} % стиль оформления \section
+	{\large\sffamily\upshape\bfseries\renewcommand{\baselinestretch}{1}} % стиль текста
+	{\thesection.} % метка
+	{0.2em} % отступ от метки до заголовка
+	{#1} % заголовок
+\titlespacing*{\section}{0pt}{*4}{*2}
+
+
+\def\thesubsection{\thesection.\arabic{subsection}}	
+\titleformat{\subsection} % стиль оформления \subsection
+	{\normalsize\sffamily\upshape\bfseries\renewcommand{\baselinestretch}{1}} % стиль текста
+	{\thesubsection.} % метка
+	{0.2em} % отступ от метки до заголовка
+	{#1} % заголовок
+\titlespacing*{\subsection}{0pt}{*2}{*2}
+
+\def\thesubsubsection{\thesubsection.\arabic{subsubsection}}	
+\titleformat{\subsubsection} % стиль оформления \subsubsection
+	{\normalsize\sffamily\upshape\bfseries\renewcommand{\baselinestretch}{1}} % стиль текста
+	{\thesubsubsection.} % метка
+	{0.2em} % отступ от метки до заголовка
+	{#1} % заголовок
+\titlespacing*{\subsubsection}{\parindent}{*2}{*1}
+
+\def\theparagraph{\thesubsubsection.\arabic{paragraph}}	
+\titleformat{\paragraph} % стиль оформления \paragraph
+	{\normalsize\sffamily\upshape\bfseries\renewcommand{\baselinestretch}{1}} % стиль текста
+	{\theparagraph.} % метка
+	{0.2em} % отступ от метки до заголовка
+	{#1} % заголовок
+\titlespacing*{\paragraph}{\parindent}{*1}{0pt}
+
+\titlespacing*{\subparagraph}{0pt}{*4}{*2}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Оформление окружений типа "теорема"
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newtheoremstyle{fmk} % стиль для окружений, создаваемых с помощью \newtheorem
+	{} % отступ сверху (например, 1ex)
+	{} % отступ снизу (например, 1ex)
+	{} % шрифта тела
+	{} % расстояние для отступа
+	{\sffamily\upshape\bfseries} % шрифт заголовка
+	{.} % знак пунктуации после заголовка
+	{ }% space after theorem head; " " = normal interword space
+	{} % Theorem head spec (can be left empty, meaning `normal')
+\theoremstyle{fmk} % активировать стиль
+\expandafter\let\expandafter\fmk@latex@proof\csname\string\proof\endcsname % сохраняем команду LaTeX
+\let\fmk@latex@endproof\endproof % сохраняем команду LaTeX
+\renewenvironment{proof}[1][Доказательство]{\fmk@latex@proof[\sffamily\upshape\mdseries\so{#1}]}{\fmk@latex@endproof}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Колонтитулы
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%
+% Общий вид верхнего колонитула.
+% #1 - текст внутри колонтитула
+%%
+\def\fmk@header#1{%
+	\raisebox{0pt}[\headheight][0pt]{% задаем высоту блока равную \headheight и нулевую глубину
+		\scriptsize% шрифт для колонтитула
+		\vbox{% начало блока
+			\hbox to \textwidth{#1}% блок с текстом
+			\par\vspace{0.5ex}% вертикальный отступ перед линейкой
+			\hrule height .4pt% горизонтальная линейка
+		}%
+	}%
+}
+\renewcommand{\@oddhead}{\fmk@header{\rightmark\hfill\thepage}}% нечетный верхний колонтитул
+\renewcommand{\@evenhead}{\fmk@header{\thepage\hfill\leftmark}}% нечетный верхний колонтитул
+\renewcommand{\@oddfoot}{}% нет нечетного нижнего колонтитула
+\renewcommand{\@evenfoot}{}% нет четного нижнего колонтитула
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Перечни
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlist[itemize]{noitemsep,topsep=0pt,leftmargin=1.5em} % убрать отбивки для перечней
+\renewcommand\labelitemi{---} % переопределение маркера для ненумерованных перечней
+\renewcommand\labelitemii{---} % переопределение маркера для ненумерованных перечней
+\renewcommand\labelitemiii{---} % переопределение маркера для ненумерованных перечней
+\renewcommand\labelitemiv{---} % переопределение маркера для ненумерованных перечней
+\renewcommand{\theenumi}{\arabic{enumi}} % переопределение вида ссылки для нумерованных перечней
+\renewcommand{\labelenumi}{\arabic{enumi})} % переопределение маркера для нумерованных перечней
+\renewcommand{\theenumii}{\arabic{enumi}.\arabic{enumii}} % переопределение вида ссылки для нумерованных перечней
+\renewcommand{\labelenumii}{\arabic{enumi}.\arabic{enumii})} % переопределение маркера для нумерованных перечней
+%\AddEnumerateCounter{\Asbuk}{\@Asbuk}{А}
+%\AddEnumerateCounter{\asbuk}{\@asbuk}{а}
+\newenvironment{enumerate*}{% перечисление в линию
+	\renewcommand{\item}{\refstepcounter{enumi}\asbuk{enumi})~}%
+	\setcounter{enumi}{0}%
+}{}
+\newenvironment{enumeratea}{%
+	\begin{enumerate}%
+	\renewcommand{\theenumi}{(\asbuk{enumi})}%
+	\renewcommand{\labelenumi}{\asbuk{enumi})}% переопределение маркера для нумерованных перечней
+}{\end{enumerate}}
+\newenvironment{enumeratea*}{%
+	\begin{enumerate*}%
+	\renewcommand{\theenumi}{(\asbuk{enumi})}%
+	\renewcommand{\labelenumi}{\asbuk{enumi})}% переопределение маркера для нумерованных перечней
+}{\end{enumerate*}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Формулы
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Пробелы в формулах.
+\thinmuskip=2mu	% маленький пробел
+\medmuskip=4.5mu   % средний пробел
+\thickmuskip=4.5mu % большой пробел
+
+% Операторы.
+\let\ge\geqslant % красивое "больше или равно"
+\let\le\leqslant % красивое "меньше или равно"
+\def\sub#1{_{\text{\textrm{#1}}}} % прямой нижний индекс
+\def\sit#1{_{\text{\textit{#1}}}} % косой нижний индекс
+
+% Перенос знаков в формулах
+\def\mathlinebreak#1{#1\nobreak\discretionary{}{\hbox{\ensuremath{#1}}}{}}
+\begingroup
+	\catcode`\+\active\gdef+{\mathchar8235\nobreak\discretionary{}{\usefont{OT1}{cmr}{m}{n}\char43}{}}
+	\catcode`\-\active\gdef-{\mathchar8704\nobreak\discretionary{}{\usefont{OMS}{cmsy}{m}{n}\char0}{}}
+	\catcode`\=\active\gdef={\mathchar12349\nobreak\discretionary{}{\usefont{OT1}{cmr}{m}{n}\char61}{}}
+\endgroup
+\AtBeginDocument{
+	\mathcode`\==32768
+	\mathcode`\+=32768
+	\mathcode`\-=32768
+}
+\def\cdot{\mathchar8705\nobreak\discretionary{}{\usefont{OMS}{cmsy}{m}{n}\char1}{}}
+\def\times{\mathchar8706\nobreak\discretionary{}{\usefont{OMS}{cmsy}{m}{n}\char2}{}}
+\let\fmk@latex@circ\circ % сохраняем команду LaTeX
+\def\circ{\mathlinebreak\fmk@latex@circ} % переопределяем команду для переноса
+\let\fmk@latex@equiv\equiv % сохраняем команду LaTeX
+\def\equiv{\mathlinebreak\fmk@latex@equiv} % переопределяем команду для переноса
+\let\fmk@latex@ge\ge % сохраняем команду LaTeX
+\def\ge{\mathlinebreak\fmk@latex@ge} % переопределяем команду для переноса
+\let\fmk@latex@in\in % сохраняем команду LaTeX
+\def\in{\mathlinebreak\fmk@latex@in} % переопределяем команду для переноса
+\let\fmk@latex@le\le % сохраняем команду LaTeX
+\def\le{\mathlinebreak\fmk@latex@le} % переопределяем команду для переноса
+\let\fmk@latex@leftarrow\leftarrow % сохраняем команду LaTeX
+\def\leftarrow{\mathlinebreak\fmk@latex@leftarrow} % переопределяем команду для переноса
+\let\fmk@latex@mid\mid % сохраняем команду LaTeX
+\def\mid{\mathlinebreak\fmk@latex@mid} % переопределяем команду для переноса
+\let\fmk@latex@ne\ne % сохраняем команду LaTeX
+\def\ne{\mathlinebreak\fmk@latex@ne} % переопределяем команду для переноса
+\let\fmk@latex@perp\perp % сохраняем команду LaTeX
+\def\perp{\mathlinebreak\fmk@latex@perp} % переопределяем команду для переноса
+\let\fmk@latex@rightarrow\rightarrow % сохраняем команду LaTeX
+\def\rightarrow{\mathlinebreak\fmk@latex@rightarrow} % переопределяем команду для переноса
+\let\fmk@latex@subset\subset % сохраняем команду LaTeX
+\def\subset{\mathlinebreak\fmk@latex@subset} % переопределяем команду для переноса
+\let\fmk@latex@subseteq\subseteq % сохраняем команду LaTeX
+\def\subseteq{\mathlinebreak\fmk@latex@subseteq} % переопределяем команду для переноса
+\let\fmk@latex@to\to % сохраняем команду LaTeX
+\def\to{\mathlinebreak\fmk@latex@to} % переопределяем команду для переноса
+\let\fmk@latex@vee\vee % сохраняем команду LaTeX
+\def\vee{\mathlinebreak\fmk@latex@vee} % переопределяем команду для переноса
+
+
+% Уменьшение числителей и знаменателей в \frac.
+\def\rtext{\text} % корректный аналог \text
+\def\ftext#1{\text{\@fractextfont #1}} % корректный аналог \text для дробей
+\def\infrac{}%
+\def\@infrac{F}%
+\def\ifinfrac#1#2#3#4#5#6{%
+	\ifmmode%
+		\if\infrac\@infrac%
+			\mathchoice{#3}{#4}{#5}{#6}%
+		\else%
+			#2%
+		\fi%
+	\else%
+		#1%
+	\fi%
+}
+\renewcommand{\frac}[2]{{%
+	\def\infrac{F}%
+	\mathchoice{{%
+		\def\rtext{\ftext}
+		\mbox{$\displaystyle \textfont0=\@fracrfont \textfont1=\@fracifont \genfrac{}{}{}{0}{#1}{#2}$}%
+	}}%
+	{\genfrac{}{}{}{1}{#1}{#2}}%
+	{\genfrac{}{}{}{2}{#1}{#2}}%
+	{\genfrac{}{}{}{3}{#1}{#2}}%
+}}
+\let\rtext=\text
+\newcounter{@MathFractionFontSize}
+\newcounter{@MathFracTextFontSize}
+\newcounter{@MathFracTextFontLine}
+\setcounter{@MathFractionFontSize}{10}
+\addtocounter{@MathFractionFontSize}{\@ptsize}
+\addtocounter{@MathFractionFontSize}{-2}
+\def\@SetMathFracTextFont{%
+	\setcounter{@MathFracTextFontSize}{\arabic{@MathFractionFontSize}}%
+	\setcounter{@MathFracTextFontLine}{\arabic{@MathFractionFontSize}}%
+	\addtocounter{@MathFracTextFontLine}{1}%
+}
+\newcommand{\@SetMathFont}{%
+	\font\@fracrfont=cmr\arabic{@MathFractionFontSize}
+	\font\@fracifont=cmmi\arabic{@MathFractionFontSize}
+	\renewcommand{\@fractextfont}{\fontsize{\arabic{@MathFracTextFontSize}pt}{\arabic{@MathFracTextFontLine}pt}\selectfont}
+}
+\newcommand{\@fractextfont}{\fontsize{\arabic{@MathFracTextFontSize}pt}{\arabic{@MathFracTextFontLine}pt}\selectfont}
+\@SetMathFracTextFont
+\@SetMathFont
+
+% Прямые греческие буквы.
+\DeclareSymbolFont{greek}{U}{eur}{m}{n}   % новый шрифт
+\SetSymbolFont{greek}{bold}{U}{eur}{b}{n} % полужирное начертание
+\DeclareSymbolFontAlphabet{\greek}{greek} % способ использования шрифта
+\DeclareMathSymbol{\alpha}	 {\mathord}{greek}{"0B}
+\DeclareMathSymbol{\beta}	  {\mathord}{greek}{"0C}
+\DeclareMathSymbol{\gamma}	 {\mathord}{greek}{"0D}
+\DeclareMathSymbol{\delta}	 {\mathord}{greek}{"0E}
+\DeclareMathSymbol{\epsilon}   {\mathord}{greek}{"0F}
+\DeclareMathSymbol{\zeta}	  {\mathord}{greek}{"10}
+\DeclareMathSymbol{\eta}	   {\mathord}{greek}{"11}
+\DeclareMathSymbol{\theta}	 {\mathord}{greek}{"12}
+\DeclareMathSymbol{\iota}	  {\mathord}{greek}{"13}
+\DeclareMathSymbol{\kappa}	 {\mathord}{greek}{"14}
+\DeclareMathSymbol{\lambda}	{\mathord}{greek}{"15}
+\DeclareMathSymbol{\mu}		{\mathord}{greek}{"16}
+\DeclareMathSymbol{\nu}		{\mathord}{greek}{"17}
+\DeclareMathSymbol{\xi}		{\mathord}{greek}{"18}
+\DeclareMathSymbol{\pi}		{\mathord}{greek}{"19}
+\DeclareMathSymbol{\rho}	   {\mathord}{greek}{"1A}
+\DeclareMathSymbol{\sigma}	 {\mathord}{greek}{"1B}
+\DeclareMathSymbol{\tau}	   {\mathord}{greek}{"1C}
+\DeclareMathSymbol{\upsilon}   {\mathord}{greek}{"1D}
+\DeclareMathSymbol{\phi}	   {\mathord}{greek}{"1E}
+\DeclareMathSymbol{\chi}	   {\mathord}{greek}{"1F}
+\DeclareMathSymbol{\psi}	   {\mathord}{greek}{"20}
+\DeclareMathSymbol{\omega}	 {\mathord}{greek}{"21}
+\DeclareMathSymbol{\varepsilon}{\mathord}{greek}{"22}
+\DeclareMathSymbol{\vartheta}  {\mathord}{greek}{"23}
+\DeclareMathSymbol{\varpi}	 {\mathord}{greek}{"24}
+\DeclareMathSymbol{\varrho}	{\mathord}{greek}{"1A}
+\DeclareMathSymbol{\varsigma}  {\mathord}{greek}{"1B}
+\DeclareMathSymbol{\varphi}	{\mathord}{greek}{"27}
+
+% Прямой интеграл.
+\let\fmk@latex@int\int % сохраняем команду LaTeX
+\def\int{\mathop{\raisebox{-0.4ex}{\rotatebox{19}{\Large$\fmk@latex@int$}}}}
+
+% Некоторые операторы.
+\def\argmax{\mathop{\mathrm{argmax}}}
+
+% Окружение совокупности.
+\def\union{\left[\begin{gathered}}
+\def\endunion{\end{gathered}\right.}

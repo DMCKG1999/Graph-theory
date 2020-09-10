@@ -1,0 +1,85 @@
+\documentclass[12pt,a4paper,fleqn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb, amsmath, multicol}
+\usepackage[russian]{babel}
+\usepackage{concmath}
+\usepackage{euler}
+\usepackage{tikz}
+\usepackage{paracol}
+\usetikzlibrary{arrows}
+
+\oddsidemargin=-15.4mm
+\textwidth=190mm
+\headheight=-32.4mm
+\textheight=277mm
+\tolerance=100
+\parindent=0pt
+\parskip=8pt
+\pagestyle{empty}
+
+\newtheorem{example}{Пример}
+\newtheorem{definition}{Определение}
+\newtheorem{theorem}{Теорема}
+
+\begin{document}
+\begin{center}
+	\bf \Large Графы
+\end{center}
+
+	\begin{example}
+	В государстве $N$ есть пять городов: Пят, Скудник, Ломб, Нюрн и Корт. Часть из этих городов соединены дорогами. Вот список дорог и время, за которое можно доехать по ним из одного города в другой:
+	\begin{center}
+	
+	Пят~---~Скудник~---~5 ч \\
+	Пят~---~Корт~---~2 ч \\
+	Скудник~---~Нюрн~---~ 1 ч\\
+	Корт~---~Нюрн~---~ 2 ч\\
+	Корт~---~Ломб~---~ 1 ч\\
+	\end{center}
+	По каждой дороге можно проезжать в обоих направлениях. Найдите, за какое минимальное время можно доехать из Скудника в Ломб.
+	\end{example}
+	\textit{Решение.} Давайте нарисуем дорожную систему этого государства.
+	\begin{paracol}{2}
+	\begin{tikzpicture}
+		[->,>=stealth',shorten >=1pt,auto,node distance=2.5cm,
+  		thick,main node/.style={circle,draw,
+  		font=\sffamily\Large\bfseries,minimum size=10mm}]
+  		
+		\node[main node] (P) {П};
+  		\node[main node] (S) [below left of=P] {С};
+  		\node[main node] (L) [below right of=S] {Л};
+  		\node[main node] (N) [right of=P] {Н};
+  		\node[main node] (K) [below of=N] {К};
+  		\path[every node/.style={font=\sffamily\small,
+  		fill=white, inner sep = 1pt}]
+    	(P) edge [] node {5} (S)
+    	(S) edge [] node {} (P)
+    	(P) edge [] node {2} (K)
+    	(K) edge [] node {} (P)
+    	(S) edge [] node {} (N)
+    	(N) edge [] node {1} (S)
+    	(K) edge [] node {2} (N)
+    	(N) edge [] node {} (K)
+    	(L) edge [] node {1} (K)
+    	(K) edge [] node {} (L);
+
+	\end{tikzpicture}
+	\switchcolumn
+	Как видно, из Скудника можно добраться двумя путями до Корта. По одному - за 7 часов, по другому - за 3 часа. А из Корта уже единственный путь до Ломба занимает 1 час. Таким образом, от Скудника до Ломба мы можем добраться за 4 часа и это будет минимальным временен дороги между ними.
+	
+	\textit{Ответ:} 4 часа 
+	\end{paracol}
+	
+	\begin{definition}
+	Граф - множество вершин графа $V$ и набор рёбер $E$, то есть соединений между парами вершин. Обозначается: $(V, E)$.
+	\end{definition}
+	Ребра бывают ориентированным (стрелки) и неориентированными (отрезки). Соответственные графы называют \textit{ориентированными} и \textit{неориентированными}. Промежуточные графы, которые содержат и неориентированные ребра и ориентированные, принято не рассматривать, так как любое неориентированное ребро всегда можно заменить на два ориентированных противоположнонаправленных ребра и таким образом сделать из графа полностью ориентированный граф.
+	
+	Граф - отличный объект для моделирования различных систем. Он находит свое отражение в транспортных системах, прогнозировании погоды, при контроле над сложным проектом и прочее. 
+	
+	Для решения следующей задачи нам понадобится еще один тип графов - \textit{двудольный граф}. Это граф, в котором все вершины можно разбить на два множества так, чтобы ни одно ребро не соединяло вершины из одного множества.
+	\begin{theorem}
+	\textbf{(о сватовстве)} Пусть $n$ юношей дружат с девушками. Предположим, что для каждой группы, состоящей из $k$ юношей имеется по крайней мере $k$ девушек, имеющих друзей среди юношей. Тогда каждого юношу можно женить на девушке, с которой он дружит.
+	\end{theorem} 
+	
+\end{document}

@@ -1,0 +1,79 @@
+%Section 
+\usepackage{titlesec}
+\titleformat{\section} {\normalfont\Large\bfseries\filcenter}{\S \!\ \thesection}{1em}{}
+\titlespacing*{\subsection}{0pt}{3.5ex}{.3ex}
+
+% Change spacing after section
+\usepackage[titles]{tocloft}
+\renewcommand{\cftbeforesecskip}{3pt}
+
+% Subsection
+\usepackage{xhfill}
+\newcommand*{\mysubsection}[2][.4pt]{
+  \addtocounter{subsection}{1}
+  \bigskip\noindent\leavevmode\xrfill{#1}~{\bfseries\large\thesubsection.\;\ #2}~\xrfill{#1}\mbox{}\nobreak\par\bigskip
+  \addcontentsline{toc}{subsection}{\protect\numberline{\thesubsection} #2}
+}
+
+% Table of content
+\usepackage{tocloft}
+\renewcommand{\cftchapaftersnum}{.}
+\renewcommand{\cftsecaftersnum}{.}
+\renewcommand{\cftsubsecaftersnum}{.}
+
+\setlength{\cftsecnumwidth}{30pt}
+
+\renewcommand\cftsecpresnum{\S} % Add paragraph symbol in the table of content
+\renewcommand\cftchappresnum{Глава }
+\AtBeginDocument{\addtolength\cftchapnumwidth{\widthof{\bfseries Глава }}}
+  
+%Graphic
+\usepackage{tikz}
+\usepackage{graphicx}
+
+%Loop
+\usepackage{tkz-graph}
+
+%Trees
+\usetikzlibrary{trees}
+
+%Math
+\usepackage{amsmath, amssymb, a4wide}
+
+\usepackage{paracol}
+
+%Custom style
+\usepackage{amsthm, fixltx2e, etoolbox}
+\theoremstyle{definition}
+%\AtBeginEnvironment{definition}{\renewcommand\em{\bfseries}}
+
+%Chapters
+\newtheorem{definition} {Определение}[chapter]
+\newtheorem{example}    {Пример}[section]
+\newtheorem{theorem}    {Теорема}[chapter]
+\newtheorem{lemma}      {Лемма}[section]
+\newtheorem*{lemma*}    {Лемма}
+\newtheorem{consequence}{Следствие}[section]
+\newtheorem{statement}  {Утверждение}[section]
+\newtheorem{property}   {Свойство}
+\newtheorem{remark}     {Замечение}
+\newtheorem{proposition}{Предложение}
+\newtheorem{hypothesis} {Гипотеза}
+
+\theoremstyle{plain}
+\newtheorem{exersize}   {Задача}[section]
+
+% Счётчик для изображений
+\newcounter{image}[chapter]
+\newenvironment{image}[1][]{\refstepcounter{image} 
+	\small Рис.~\theimage. #1 \rmfamily}{}
+\newcommand{\newimage}{\begin{image}\end{image}}
+
+% Обозначения для числовых множеств
+\def\BN{\mathbb{N}}
+\def\BZ{\mathbb{Z}}
+\def\BQ{\mathbb{Q}}
+\def\BR{\mathbb{R}}
+\def\BC{\mathbb{C}}
+
+%\theoremseparator{.}

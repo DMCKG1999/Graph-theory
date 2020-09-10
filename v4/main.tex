@@ -1,0 +1,64 @@
+\documentclass[12pt, twoside]{book}
+
+%Languages
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel} 
+
+\usepackage{textbook}
+
+\author{Гущин Д. Д.}
+\title{Теория графов}
+\date{\today}
+
+\begin{document}
+    \maketitle
+    \tableofcontents
+	
+	\input{preambula}
+	
+	\chapter{Введение}
+	  \input{chapters/1/history_of_development}
+	  \input{chapters/1/undefined_words}
+
+
+    \chapter{Элементы теории графов}
+	  \input{chapters/2/handshaking_lemma}
+	  \input{chapters/2/trees}
+	  \input{chapters/2/connected_graphs_and_isomorphism}
+	  \input{chapters/2/planar_graphs_and_Euler's_formula}
+	  \input{chapters/2/Euler's_and_Gamilton's_cicles}
+	  \input{chapters/2/directed_graphs}
+	  \input{chapters/2/bipartite_graph_and_Hall's_marriage_theorem}
+	  \input{chapters/2/webs_and_threads}
+
+	\chapter{Продвинутая теория графов}
+ 	  \input{chapters/3/easiest_construct}
+ 	  \input{chapters/3/practical_application}
+	  \input{chapters/3/sets_and_spaces_relations}
+	  \input{chapters/3/extreme_parametrs}
+	  \input{chapters/3/ramsey_theory}
+	  
+	\chapter{Алгоритмы на графах}
+	 
+	\chapter{Основы топологии}
+	 
+	
+	\chapter{Топологическая теория графов}
+	  \input{chapters/6/kneser_graphs}
+	  
+%	  \input{chapters/6/lomanie_i_epsilon_priblizeniya}
+%	  \input{chapters/6/linear_realization_of_graphs}
+%	  \input{chapters/5/topological_spaces}
+%	  \input{chapters/5/homotopies}
+%	  \input{chapters/5/heometric_simplicial_complexes}
+%	  \input{chapters/5/triangulations}
+%	  \input{chapters/5/abstract_simplicial_complexes} 
+%	\input{chapters/2/graph_coloring}
+%	\input{chapters/2/task_solutions}
+	
+%	\chapter{Из этого будет составлена следующая глава (ни в коем случае не будет читаться детям)}
+%	\input{sections/Kirchhoff's_theorem}
+%	\input{sections/Erdos_Gallai_theorem}
+	\input{lib/list_of_books}
+\end{document}
